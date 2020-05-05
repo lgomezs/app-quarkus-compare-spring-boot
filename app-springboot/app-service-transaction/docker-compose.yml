@@ -1,0 +1,20 @@
+version: '3.1'
+services:
+  app-service-transaction:
+    image: "app-service-transaction"
+    build:
+      dockerfile: devops/Dockerfile
+      context: .
+    expose:
+      - 8090
+    ports:
+      - 8090:8090
+    networks:
+      - some-net
+
+volumes:
+  volumeSqlServer:
+
+networks:
+  some-net:
+    driver: bridge
