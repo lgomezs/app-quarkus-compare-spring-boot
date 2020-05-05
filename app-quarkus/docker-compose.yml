@@ -1,0 +1,51 @@
+version: '3.1'
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2019-GA-ubuntu-16.04
+    container_name: sqlserver
+    hostname: sqlserver
+    ports:
+      - 1433:1433
+    expose:
+      - 1433
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Password123#
+    volumes:
+      # named volumes
+      - volumeSqlServer:/var/opt/mssql
+    networks:
+      - some-net
+  app-quarkus:
+    image: "app-quarkus-jvm"
+    build:
+      dockerfile: src/main/docker/Dockerfile.jvm
+      context: .
+    ports:
+      - 8080:8080
+    depends_on:
+      - sqlserver
+    links:
+      - sqlserver
+    networks:
+      - some-net
+  app-quarkus-native:
+    image: "app-quarkus-native"
+    build:
+      dockerfile: src/main/docker/Dockerfile.native
+      context: .
+    ports:
+      - 8085:8080
+    depends_on:
+      - sqlserver
+    links:
+      - sqlserver
+    networks:
+      - some-net
+
+volumes:
+  volumeSqlServer:
+
+networks:
+  some-net:
+    driver: bridge
