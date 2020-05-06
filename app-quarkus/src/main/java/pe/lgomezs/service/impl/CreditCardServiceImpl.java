@@ -39,11 +39,11 @@ public class CreditCardServiceImpl implements CreditCardService {
         final CreditCardTransaction creditCardTransaction;
         try {
             creditCardTransaction = transaction(processTraceId, creditCardPaymentCashRequest, generateZoneDateTime());
+            this.creditCardRepository.save(creditCardTransaction);
         } catch (Exception e) {
             log.error("Error al procesar transaccion {} ", e.getMessage());
             throw new TransactionException("Error al procesar transaccion");
         }
-        this.creditCardRepository.save(creditCardTransaction);
     }
 
     @Override

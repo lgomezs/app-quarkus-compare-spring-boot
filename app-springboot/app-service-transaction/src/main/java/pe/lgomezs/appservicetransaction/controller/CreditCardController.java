@@ -24,6 +24,7 @@ public class CreditCardController {
     @PostMapping(value = "/{processTraceId}/payment")
     public ResponseEntity<?> creditCardPayment(@PathVariable String processTraceId,
                                                @RequestBody CreditCardPaymentCashRequest creditCardPaymentCashRequest) {
+        log.info("Inicio creditCardPayment :: processTraceId {} ", processTraceId);
         ResponseCalculationDoubleBilling responseCalculationDoubleBilling = creditCardService.findByProcessTraceId(UUID.fromString(processTraceId));
         if (responseCalculationDoubleBilling == null) {
             creditCardService.saveCreditCard(UUID.fromString(processTraceId), creditCardPaymentCashRequest);
