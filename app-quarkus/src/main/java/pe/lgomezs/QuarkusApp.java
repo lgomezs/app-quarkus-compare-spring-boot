@@ -1,9 +1,7 @@
 package pe.lgomezs;
 
 
-
 import com.microsoft.sqlserver.jdbc.SQLServerException;
-
 import io.quarkus.runtime.Quarkus;
 import io.quarkus.runtime.QuarkusApplication;
 import io.quarkus.runtime.annotations.QuarkusMain;
@@ -15,8 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 public class QuarkusApp {
 
     public static void main(String... args) throws SQLServerException {
-       // initializersKeyStoreProviders();
-        //new KeyStoreProvidersInitializer().initialize();
         Quarkus.run(MyApp.class, args);
     }
 
@@ -25,7 +21,6 @@ public class QuarkusApp {
         @Override
         public int run(String... args) throws Exception {
             log.info("Do startup logic here");
-            //initializersKeyStoreProviders();
             Quarkus.waitForExit();
             log.info("waitForExit");
             return 0;

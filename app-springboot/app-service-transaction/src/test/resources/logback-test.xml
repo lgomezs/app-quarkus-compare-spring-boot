@@ -1,0 +1,49 @@
+<configuration>
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+  <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+  <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+
+  <springProperty name="appname" source="spring.application.name" scope="context"/>
+
+  <property name="CONSOLE_LOG_PATTERN_TRACING"
+            value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr([%X{trace.id}:%X{span.id}]) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}"/>
+
+  <springProperty scope="context"
+                  name="loggingElasticHosts"
+                  source="localhost"/>
+  <springProperty scope="context"
+                  name="loggingElasticPort"
+                  source="9601"/>
+
+  <!-- config enviroment -->
+  <springProperty scope="context" name="applicationName" source="spring.application.name" defaultValue="application"/>
+
+  <!-- config appender  logstash -->
+  <appender name="logstash-appender" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <destination>${loggingElasticHosts}:${loggingElasticPort}</destination>
+    <writeBufferSize>81920</writeBufferSize><!--default: 8192 (x10) -->
+    <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+      <customFields>{"appname":"${appname}"}</customFields>
+    </encoder>
+  </appender>
+
+  <appender name="Console-Appender"
+            class="ch.qos.logback.core.ConsoleAppender">
+    <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+      <level>ERROR</level>
+    </filter>
+    <encoder>
+      <pattern>${CONSOLE_LOG_PATTERN_TRACING}</pattern>
+    </encoder>
+  </appender>
+
+  <root level="INFO">
+    <appender-ref ref="Console-Appender"/>
+    <appender-ref ref="logstash-appender"/>
+  </root>
+
+  <logger name="pe.lgomezs.appservicetransaction.AppServiceTransactionApplication" additivity="false">
+    <appender-ref ref="CONSOLE"/>
+  </logger>
+
+</configuration>

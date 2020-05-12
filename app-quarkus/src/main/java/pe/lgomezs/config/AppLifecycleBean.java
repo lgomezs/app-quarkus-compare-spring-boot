@@ -7,6 +7,7 @@ import io.quarkus.runtime.ShutdownEvent;
 import io.quarkus.runtime.StartupEvent;
 import org.jboss.logging.Logger;
 
+
 @ApplicationScoped
 public class AppLifecycleBean {
 

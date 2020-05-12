@@ -16,6 +16,9 @@
 
 	<properties>
 		<java.version>11</java.version>
+		<opentracing.version>0.2.6</opentracing.version>
+		<elastic.version>1.7.0</elastic.version>
+		<logstash-logback-encoder.version>6.1</logstash-logback-encoder.version>
 	</properties>
 
 	<dependencies>
@@ -83,6 +86,67 @@
 			</exclusions>
 		</dependency>
 
+
+		<!-- ELK - APM -->
+		<dependency>
+			<groupId>io.opentracing.contrib</groupId>
+			<artifactId>opentracing-spring-cloud-starter</artifactId>
+			<version>${opentracing.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>io.opentracing.contrib</groupId>
+					<artifactId>opentracing-spring-cloud-reactor-starter</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>apm-opentracing</artifactId>
+			<version>${elastic.version}</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>opentracing-util</artifactId>
+					<groupId>io.opentracing</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>opentracing-api</artifactId>
+					<groupId>io.opentracing</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>apm-agent-api</artifactId>
+			<version>${elastic.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>elastic-apm-agent</artifactId>
+			<version>${elastic.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>co.elastic.apm</groupId>
+			<artifactId>apm-agent-attach</artifactId>
+			<version>${elastic.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- ELK - APM -->
+
+		<!-- ELK - LOGBACK -->
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>${logstash-logback-encoder.version}</version>
+		</dependency>
+		<!-- ELK - LOGBACK -->
+
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -94,4 +158,15 @@
 		</plugins>
 	</build>
 
+	<repositories>
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>https://repo1.maven.org/maven2</url>
+			<layout>default</layout>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
 </project>
