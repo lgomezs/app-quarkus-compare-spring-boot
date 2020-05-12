@@ -15,7 +15,8 @@ Se compone de las aplicaciones:
    
    ![Screenshot from running application](img/post-springboot.png?raw=true "POST")
    
-    ## Se configuro logback con logstash (APM, ELASTIC SUITE)
+  
+  ## Se configuro logback con logstash (APM, ELASTIC SUITE)
 
    Create file gelf.conf
         
@@ -47,6 +48,6 @@ Se compone de las aplicaciones:
         /usr/share/logstash/bin/logstash -f config/gelf.conf
 
     
-    ![Screenshot from running application](img/elk-log.png?raw=true "POST")
+  ![Screenshot from running application](img/elk-log.png?raw=true "POST")
     
       
